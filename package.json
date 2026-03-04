@@ -1,0 +1,26 @@
+{
+  "name": "node_study",
+  "version": "1.0.0",
+  "description": "node rest api study",
+  "keywords": [
+    "node",
+    "rest",
+    "api",
+    "study"
+  ],
+  "homepage": "https://github.com/jean202/node-study#readme",
+  "bugs": {
+    "url": "https://github.com/jean202/node-study/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jean202/node-study.git"
+  },
+  "license": "ISC",
+  "author": "jean202",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "node -e \"console.log('test ok')\""
+  }
+}
