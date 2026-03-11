@@ -1,0 +1,49 @@
+@startuml
+title Node.js server.js 이벤트 루프 흐름
+skinparam backgroundColor #F7F9FC
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam sequence {
+  ArrowColor #2B5876
+  LifeLineBorderColor #2B5876
+  LifeLineBackgroundColor #EAF2FF
+  ParticipantBorderColor #2B5876
+  ParticipantBackgroundColor #FFFFFF
+  ParticipantFontColor #1F2D3D
+  ActorBorderColor #2B5876
+  ActorBackgroundColor #FFFFFF
+  ActorFontColor #1F2D3D
+}
+
+autonumber
+
+actor "Client\n(Browser/curl)" as Client
+participant "OS Network I/O" as OS
+participant "Event Loop\n(libuv)" as Loop
+participant "Main Thread\n(Call Stack)" as Main
+participant "HTTP Server\n(node:http)" as Server
+
+Main -> Server: createServer(handler)
+Main -> Server: listen(3000, 127.0.0.1)
+Server -> Loop: 소켓 감시 등록
+Loop -> Main: listen 콜백 실행\nconsole.log(...)
+Main --> Loop: Idle(대기)
+
+loop 요청이 들어올 때마다
+  Client -> OS: HTTP 요청
+  OS -> Loop: 소켓 이벤트 전달
+  Loop -> Main: handler(req, res) 실행
+  Main -> Server: statusCode=200\nsetHeader("Content-Type","text/plain")
+  Main -> Server: res.end("Hello World")
+  Server -> OS: 응답 쓰기 위임(비동기 I/O)
+  OS --> Client: HTTP 200 + Hello World
+  Main --> Loop: 다음 이벤트 대기
+end
+
+note right of Main
+동기 CPU 작업이 길면
+이 구간이 막혀서
+다른 요청도 지연됨
+(이벤트 루프 블로킹)
+end note
+@enduml

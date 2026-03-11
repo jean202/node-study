@@ -1,0 +1,20 @@
+@startuml
+title Node.js server.js 이벤트 루프 (Activity)
+
+start
+:node server.js 실행;
+:createServer(handler) 등록;
+:listen(3000, 127.0.0.1) 호출;
+:이벤트 루프가 소켓 감시 시작;
+
+repeat
+:HTTP 요청 도착;
+:handler(req, res) 실행;
+:statusCode=200, setHeader(...);
+:res.end("Hello World");
+:응답 쓰기를 OS I/O에 위임;
+repeat while (다음 요청 있음?) is (yes)
+
+:요청 없으면 대기(idle);
+stop
+@enduml

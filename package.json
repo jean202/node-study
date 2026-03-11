@@ -22,5 +22,10 @@
   "main": "index.js",
   "scripts": {
     "test": "node -e \"console.log('test ok')\""
+  },
+  "dependencies": {
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "mongodb": "^7.1.0"
   }
 }
