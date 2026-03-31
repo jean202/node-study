@@ -10,7 +10,7 @@ export class AppService {
     return { message: 'Hello NestJS!' };
   }
 
-  echo(body: {message: string}) {
+  echo(body: { message: string }) {
     return body;
   }
 }
